@@ -5,6 +5,14 @@ from random import randint
 import subprocess
 from time import sleep
 
+id = "ID_HERE"
+user = "Username"
+project = "projectid"
+session = sa.login_by_id(id, username=user)
+
+cloud = session.connect_cloud(project)
+print("Connected!")
+
 d_s = ["00"]
 a_s = [" "]
 
@@ -29,15 +37,6 @@ aChars = a_s + a_A + a_a + a_n + a_special
 print(len(dChars))
 print(len(aChars))
 
-user = "USERNAMEHERE"
-userid = "IDHERE"
-projectid = "IDHERE"
-session = sa.login_by_id(id, username=user)
-
-cloud = session.connect_cloud(projectid)
-print("Connected!")
-
-
 # From Python to Scratch -- to Decimal
 def convert(text):
     dec = []
@@ -58,7 +57,7 @@ def convert_back(text):
 def grabData(amount):
     cont = 0
     while cont < 10:
-        data = requests.get(f"https://clouddata.scratch.mit.edu/logs?projectid={projectid}&limit={amount}&offset=0")
+        data = requests.get(f"https://clouddata.scratch.mit.edu/logs?projectid={project}&limit={amount}&offset=0")
         if data.status_code == 200:
             data = data.text
             data_json = json.loads(data)
@@ -120,13 +119,13 @@ while True:
         oldcommand = command
         ran = f" {randint(100,999)}" # So it can be sent again
         try:
-            input = subprocess.check_output(f"{propercommand};echo \n$PWD", cwd=pwd, shell=True, stderr=subprocess.STDOUT)
+            input = subprocess.check_output(f"{propercommand};echo;echo $PWD", cwd=pwd, shell=True, stderr=subprocess.STDOUT)
             input = input.decode("utf-8").strip()
             pwd = str(input.split("\n")[-1])
             if input.count("\n") > 0:
                 input = '\n'.join(input.split("\n")[:-1])
             else:
-                input = "No output."
+                input = ""
             cloudpwd = convert(pwd)
         except subprocess.CalledProcessError as error:
             input = error.output.decode("utf-8") if error.output else str(error)
@@ -136,13 +135,14 @@ while True:
         cont = 0
         while cont < 5:
             try:
-                    cloud.set_var("PWD", cloudpwd)
-                    sleep(0.1)
-                    cloud.set_var("Input", input)
+                cloud.set_var("PWD", cloudpwd)
+                sleep(0.1)
+                cloud.set_var("Input", input)
+                cont = 6
             except:
                 print("Failed to set cloud variables, trying again.")
-            cont += 1
-            sleep(0.5)
+                cont += 1
+                sleep(0.5)
         if cont == 5:
             print("Failed to set cloud variables, giving up.")
     sleep(2)
