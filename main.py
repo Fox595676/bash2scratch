@@ -29,6 +29,15 @@ aChars = a_s + a_A + a_a + a_n + a_special
 print(len(dChars))
 print(len(aChars))
 
+user = "USERNAMEHERE"
+userid = "IDHERE"
+projectid = "IDHERE"
+session = sa.login_by_id(id, username=user)
+
+cloud = session.connect_cloud(projectid)
+print("Connected!")
+
+
 # From Python to Scratch -- to Decimal
 def convert(text):
     dec = []
@@ -49,7 +58,7 @@ def convert_back(text):
 def grabData(amount):
     cont = 0
     while cont < 10:
-        data = requests.get(f"https://clouddata.scratch.mit.edu/logs?projectid=1106466810&limit={amount}&offset=0")
+        data = requests.get(f"https://clouddata.scratch.mit.edu/logs?projectid={projectid}&limit={amount}&offset=0")
         if data.status_code == 200:
             data = data.text
             data_json = json.loads(data)
@@ -58,23 +67,18 @@ def grabData(amount):
             print(f"Error {data.status_code}, trying again.")
             cont += 1
             sleep(1)
-    # I'm aware how horendous this part is :sob:
     print(f"Error {data.status_code}, resorting to placeholder after {cont} attempts.")
     grabData(amount)
     exit
+    # I'm aware how horendous this part is :sob:
     placeholder = '[{"user":"null","verb":"null","name":"null","value":"0","timestamp":0}]'
     data_json = json.loads(placeholder)
     return data_json
 
-id = "PUT_USER_ID_HERE"
-session = sa.login_by_id(id, username="putUsernameHere")
-
-cloud = session.connect_cloud("PUT_PROJECT_ID_HERE")
-print("Connected!")
-
 data_json = grabData(10)
 
-# pwd = "/home/avagoosa/"
+# Make this read from the JSON!
+pwd = "/home/avagoosa/"
 
 # Don't. Even.
 oldcommand = 999
@@ -116,7 +120,7 @@ while True:
         oldcommand = command
         ran = f" {randint(100,999)}" # So it can be sent again
         try:
-            input = subprocess.check_output(f"{propercommand};echo $PWD", cwd=pwd, shell=True, stderr=subprocess.STDOUT)
+            input = subprocess.check_output(f"{propercommand};echo \n$PWD", cwd=pwd, shell=True, stderr=subprocess.STDOUT)
             input = input.decode("utf-8").strip()
             pwd = str(input.split("\n")[-1])
             if input.count("\n") > 0:
@@ -127,10 +131,10 @@ while True:
         except subprocess.CalledProcessError as error:
             input = error.output.decode("utf-8") if error.output else str(error)
         print(input)
-        print(pwd)
+        print(f"pwd: {pwd}")
         input = convert(input)
         cont = 0
-        while cont == 5:
+        while cont < 5:
             try:
                     cloud.set_var("PWD", cloudpwd)
                     sleep(0.1)
@@ -139,6 +143,6 @@ while True:
                 print("Failed to set cloud variables, trying again.")
             cont += 1
             sleep(0.5)
-        if cont :
+        if cont == 5:
             print("Failed to set cloud variables, giving up.")
     sleep(2)
