@@ -1,13 +1,12 @@
 # scratch2bash
 The backend for a Bash terminal in Scratch!
 
-![image](https://github.com/user-attachments/assets/494a3ee3-09fd-410d-a19b-dbfae547ccd0)
+![1106466810_295x221](https://github.com/user-attachments/assets/1b5081fe-e7f4-4dcd-8ddc-b87338e00683)
 
 Known issues:
-- Obviously, the repeated commands, which I could easily fix, but I don't have much time 😭
 - Running an interative command softlocks the system (e.g. `sudo <command>`)
+- This is quite a big security risk, so only do this if you know that! It's more of a proof-of-concept than anything really 😂
 
-This is quite a big security risk, so only do this if you know that! It's more of a proof-of-concept than anything really 😂
 ## Setup
 - Start by remixing the [bash2scratch](https://scratch.mit.edu/projects/1106466810/) project!
 
