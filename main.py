@@ -4,12 +4,13 @@ import json
 from random import randint
 import subprocess
 from time import sleep
+from re import sub
 
 id = "ID_HERE"
 user = "Username"
 project = "projectid"
-session = sa.login_by_id(id, username=user)
 
+session = sa.login_by_id(id, username=user)
 cloud = session.connect_cloud(project)
 print("Connected!")
 
@@ -169,12 +170,13 @@ while True:
         try:
             input = subprocess.check_output(f"{propercommand};echo;echo $PWD", cwd=pwd, shell=True, stderr=subprocess.STDOUT)
             input = input.decode("utf-8").strip()
+
             pwd = str(input.split("\n")[-1])
             if input.count("\n") > 0:
                 input = '\n'.join(input.split("\n")[:-1])
             else:
                 input = ""
-            cloudpwd = convert(pwd)
+            cloudpwd = convert(sub(r"^/home/[^/]+", "~", pwd))
         except subprocess.CalledProcessError as error:
             input = error.output.decode("utf-8") if error.output else str(error)
         print(input)
