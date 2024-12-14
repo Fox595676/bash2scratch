@@ -8,7 +8,7 @@ Known issues:
 - This is quite a big security risk, so only do this if you know that! It's more of a proof-of-concept than anything really 😂
 
 ## Setup
-- Start by remixing the [bash2scratch](https://scratch.mit.edu/projects/1106466810/) project!
+- Start by remixing the [scratch2bash](https://scratch.mit.edu/projects/1106466810/) project!
 
 Now open your terminal in your favourite environment (this *could* work with Windows, but I haven't really tested nor been interested in it haha)
 1. Install the requirements
