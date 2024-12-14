@@ -86,11 +86,11 @@ def convert_back(text): # From Scratch to Python -- to Text
         cha.append((aChars[dChars.index(f"{text[c]}{text[c+1]}")]))
     return("".join(cha))
 
-print("Searching for a new command...")
-
 # ----------------------------------- #
 
-running = False # So setting variables doesn't trigger and create an infinite loop
+print("Searching for a new command...")
+
+running = False # So setting variables doesn't trigger an infinite loop
 pwd = f"/home/{compuser}"
 
 @events.event
@@ -99,26 +99,27 @@ def on_set(activity):
     global pwd
     global compuser
 
+    # ------------------------------- #
+
     if running == False and activity.username != None:
-
-        if activity.var == "PWD":
-            running = True ###
-            # pwd = convert_back(activity.value)
-            pwd = pwd.replace("~", f"/home/{compuser}")
-            cloudpwd = convert(pwd.replace(f"/home/{compuser}", "~"))
-            cloud.set_var("PWD", cloudpwd)
-            running = False ###
-
-        # ------------------------------- #
 
         if activity.var == "Output": # If the event is a command
             running = True ###
             command = activity.value
             oldresult = cloud.get_var("Input")
 
+            # ------------------------------- #
+
+            pwd = convert_back(cloud.get_var("PWD")) # If the Scratcher is currently in a different DIR
+            pwd = pwd.replace("~", f"/home/{compuser}")
+            cloudpwd = convert(pwd.replace(f"/home/{compuser}", "~"))
+            cloud.set_var("PWD", cloudpwd)
+
+            # ------------------------------- #
+
             print("Found command from: ", activity.username) # Print the command the Scratcher has input
             propercommand = convert_back(activity.value)
-            print(propercommand)
+            print(propercommand,"\n")
 
             try:
                 input = subprocess.check_output(f"{propercommand};echo;echo $PWD", cwd=pwd, shell=True, stderr=subprocess.STDOUT)
@@ -134,6 +135,8 @@ def on_set(activity):
             except subprocess.CalledProcessError as error:
                 input = error.output.decode("utf-8") if error.output else str(error)
             
+            # ------------------------------- #
+
             # So it can be set independently and display a tilde for the home directory
             cloudpwd = convert(pwd.replace(f"/home/{compuser}", "~"))
 
