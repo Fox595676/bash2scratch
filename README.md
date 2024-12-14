@@ -5,7 +5,6 @@ The backend for a Bash terminal in Scratch!
 
 Known issues:
 - Running an interative command softlocks the system (e.g. `sudo <command>`)
-- This is quite a big security risk, so only do this if you know that! It's more of a proof-of-concept than anything really 😂
 
 ## Setup
 - Start by remixing the [scratch2bash](https://scratch.mit.edu/projects/1106466810/) project!
