@@ -45,7 +45,7 @@ Now open your terminal in your favourite environment (this *could* work with Win
    ```
 3. Start the script
    ```bash
-   ~/bash2scratch/bin/python3 bash2scratch.py
+   ~/bash2scratch/bin/python3 ~/bash2scratch/main.py
    ```
 4. If you want to have this running in the background, paste the following, and press Ctrl + A, then Ctrl + D to exit.
    ```bash
