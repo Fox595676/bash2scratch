@@ -1,4 +1,4 @@
-# scratch2bash
+# bash2scratch
 The backend for a Bash terminal in Scratch!
 
 ![1106466810_295x221](https://github.com/user-attachments/assets/1b5081fe-e7f4-4dcd-8ddc-b87338e00683)
