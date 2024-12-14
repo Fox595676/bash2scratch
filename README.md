@@ -22,9 +22,11 @@ Now open your terminal in your favourite environment (this *could* work with Win
    ```
 2. Copy and paste the following:
    ```bash
+   cd ~
    mkdir bash2scratch
    cd bash2scratch
-   curl -o main.py https://raw.githubusercontent.com/Fox595676/scratch2bash/refs/heads/main/main.py
+   
+   curl -o main.py https://raw.githubusercontent.com/Fox595676/bash2scratch/refs/heads/main/main.py
 
    echo "Enter your session ID (this can be found by opening developer tools on Scratch etc, https://github.com/TimMcCool/scratchattach/wiki/Get-your-session-id):"
    read id
@@ -41,13 +43,13 @@ Now open your terminal in your favourite environment (this *could* work with Win
    source bin/activate
    python -m pip install -U scratchattach
    ```
-3. Start the script (make sure you're in the same directory as you ran the install script in!):
+3. Start the script
    ```bash
-   bin/python3 bash2scratch.py
+   ~/bash2scratch/bin/python3 bash2scratch.py
    ```
 4. If you want to have this running in the background, paste the following, and press Ctrl + A, then Ctrl + D to exit.
    ```bash
-   screen -S bash2scratch bash -c "~/scratchAttach/bin/python3 ~/scratchAttach/bash2scratch.py"
+   screen -S bash2scratch bash -c "~/bash2scratch/bin/python3 ~/bash2scratch/main.py"
    ```
 5. If you want to reconnect, type
    ```bash
